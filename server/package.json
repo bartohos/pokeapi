@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon",
     "debug": "node --inspect=5858 -r ts-node/register ./src/server.ts",
-    "client": "cd client/poke && yarn start",
+    "client": "cd ../client && yarn start",
     "dev": "concurrently --kill-others-on-fail \"yarn start\" \"yarn client\""
   },
   "keywords": [],
