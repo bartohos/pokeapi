@@ -1,40 +1,12 @@
-import React, { Component } from 'react';
-import './App.css';
+import React from 'react';
+import Home from './components/Home';
 
-class App extends Component {
-  state = {
-    renderedResponse: {
-      express: ''
-    }
-  }
-
-  getResponse = async () => {
-    const response = await fetch('/api/hello');
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-
-    return body;
-  }
-
-  componentDidMount() {
-    this.getResponse()
-      .then(res => {
-        const someData = res;
-        this.setState({ renderedResponse: someData });
-      })
-  }
-
-  render() {
-    const { renderedResponse } = this.state;
-
-    return (
+function App() {
+  return (
       <div className="App">
-        <h2>Call out to API!</h2>
-        <p>{renderedResponse.express}</p>
+        <Home />
       </div>
-    );
-  }
-
+  );
 }
 
 export default App;
