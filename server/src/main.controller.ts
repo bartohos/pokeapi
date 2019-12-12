@@ -25,5 +25,7 @@ export class Controller {
 
         this.app.route("/search/:name")
             .get(this.pokeService.searchByName);
+
+        this.app.route("/search").get(this.pokeService.getAllPokemon)
     }
 }
