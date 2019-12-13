@@ -1,13 +1,53 @@
-import React, { Component } from "react"
-import { IPokemon } from "../models/IPokemon"
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import Helper from "../helpers/Helper";
+import { IPokemon } from "../models/IPokemon";
 
-class Pokemon extends Component<{ pokemon: IPokemon }> {
-    render() {
-        const { pokemon } = this.props
-        return (
-            <li>{pokemon.name}</li>
-        )
+interface IProps {
+    match: {
+        params: {
+            id: string
+        }
     }
 }
+
+interface IState {
+    currentPokemon?: IPokemon;
+}
+
+class Pokemon extends Component<IProps, IState> {
+    constructor(props: IProps) {
+        super(props);
+        this.state = {
+            currentPokemon: undefined
+        }
+    }
+
+    async componentWillMount() {
+        const pokemon = await Helper.fetch('/pokemon/' + this.props.match.params.id);
+        this.setState({ currentPokemon: pokemon });
+    }
+
+    async componentWillReceiveProps(nextProps: IProps) {
+        // You don't have to do this check first, but it can help prevent an unneeded render
+        if (nextProps.match.params.id !== this.state.currentPokemon?._id) {
+            const pokemon = await Helper.fetch('/pokemon/' + nextProps.match.params.id);
+            this.setState({ currentPokemon: pokemon });
+        }
+    }
+
+    render() {
+        const pokemon = this.state.currentPokemon;
+        return (
+            <>
+                <li>Name: {pokemon?.name} </li>
+                <li>Type: {pokemon?.type.join(', ')} </li>
+                <li>Notes: {pokemon?.notes} </li>
+                <Link to='/'>Back</Link>
+            </>);
+
+    }
+}
+
 
 export default Pokemon

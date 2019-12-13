@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Helper from "../helpers/Helper";
 import { IPokemon } from "../models/IPokemon";
 import './Home.css';
-import Pokemon from "./Pokemon";
+import PokemonList from "./PokemonList";
 
 const WAIT_INTERVAL = 400;
 
@@ -39,8 +39,8 @@ class Home extends Component<{}, IPokemonStateState> {
 
   async componentDidMount() {
     this.timer = null;
-      const pokemons = await Helper.fetch('/search');
-      this.setState({ pokemons, pokemonsFiltred: pokemons });
+    const pokemons = await Helper.fetch('/search');
+    this.setState({ pokemons, pokemonsFiltred: pokemons });
   }
 
   handleChange(event: any) {
@@ -64,14 +64,14 @@ class Home extends Component<{}, IPokemonStateState> {
 
     return (
       <div>
-        <h2>List of Pokemons</h2>
-        <input type="text" className="input" placeholder="Search..." onChange={this.handleChange}></input>
-        <ul>
-          {renderPoke}
-        </ul>
-        <ul id="page-numbers">
-          {renderPageNumbers}
-        </ul>
+          <h2>List of Pokemons</h2>
+          <input type="text" className="input" placeholder="Search..." onChange={this.handleChange}></input>
+          <ul>
+            {renderPoke}
+          </ul>
+          <ul id="page-numbers">
+            {renderPageNumbers}
+          </ul>
       </div>
     );
   }
@@ -81,7 +81,7 @@ class Home extends Component<{}, IPokemonStateState> {
     const indexOfFirstPoke = indexOfLastPoke - pokemonPerPage;
     const currentPokes = pokemonsFiltred.slice(indexOfFirstPoke, indexOfLastPoke);
     const renderPoke = currentPokes.map((pokemon: IPokemon, index: number) => (<div key={index}>
-      <Pokemon pokemon={pokemon}></Pokemon>
+      <PokemonList pokemon={pokemon}></PokemonList>
     </div>));
     const pageNumbers: number[] = [];
     for (let i = 1; i <= Math.ceil(pokemonsFiltred.length / pokemonPerPage); i++) {
