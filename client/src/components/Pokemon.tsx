@@ -3,35 +3,39 @@ import { Link } from "react-router-dom";
 import Helper from "../helpers/Helper";
 import { IPokemon } from "../models/IPokemon";
 
-interface IProps {
+interface IPokemonProps {
     match: {
         params: {
-            id: string
-        }
-    }
+            id: string;
+        };
+    };
 }
 
-interface IState {
+interface IPokemonState {
     currentPokemon?: IPokemon;
 }
 
-class Pokemon extends Component<IProps, IState> {
-    constructor(props: IProps) {
+class Pokemon extends Component<IPokemonProps, IPokemonState> {
+    constructor(props: IPokemonProps) {
         super(props);
         this.state = {
             currentPokemon: undefined
-        }
+        };
     }
 
     async componentWillMount() {
-        const pokemon = await Helper.fetch('/pokemon/' + this.props.match.params.id);
+        const pokemon = await Helper.fetch(
+            "/pokemon/" + this.props.match.params.id
+        );
         this.setState({ currentPokemon: pokemon });
     }
 
-    async componentWillReceiveProps(nextProps: IProps) {
+    async componentWillReceiveProps(nextProps: IPokemonProps) {
         // You don't have to do this check first, but it can help prevent an unneeded render
         if (nextProps.match.params.id !== this.state.currentPokemon?._id) {
-            const pokemon = await Helper.fetch('/pokemon/' + nextProps.match.params.id);
+            const pokemon = await Helper.fetch(
+                "/pokemon/" + nextProps.match.params.id
+            );
             this.setState({ currentPokemon: pokemon });
         }
     }
@@ -41,13 +45,12 @@ class Pokemon extends Component<IProps, IState> {
         return (
             <>
                 <li>Name: {pokemon?.name} </li>
-                <li>Type: {pokemon?.type.join(', ')} </li>
+                <li>Type: {pokemon?.type.join(", ")} </li>
                 <li>Notes: {pokemon?.notes} </li>
-                <Link to='/'>Back</Link>
-            </>);
-
+                <Link to="/">Back</Link>
+            </>
+        );
     }
 }
 
-
-export default Pokemon
+export default Pokemon;

@@ -1,0 +1,14 @@
+{
+  "name": "pokeapiserver",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "server": "cd server && nodemon",
+    "client": "cd client && yarn start",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
