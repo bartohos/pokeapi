@@ -10,7 +10,7 @@ export interface IHomeState {
     pokemonsFiltred: IPokemon[];
     currentPage: number;
     pokemonPerPage: number;
-    value: string;
+    searchValue: string;
 }
 
 class Home extends Component<{}, IHomeState> {
@@ -22,7 +22,7 @@ class Home extends Component<{}, IHomeState> {
             pokemonsFiltred: [],
             currentPage: 1,
             pokemonPerPage: 10,
-            value: ""
+            searchValue: ""
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -44,13 +44,13 @@ class Home extends Component<{}, IHomeState> {
 
     handleChange(event: any) {
         clearTimeout(this.timer);
-        this.setState({ value: event.target.value });
+        this.setState({ searchValue: event.target.value });
 
         this.timer = setTimeout(this.triggerChange, WAIT_INTERVAL);
     }
 
     async triggerChange() {
-        const { value } = this.state;
+        const { searchValue: value } = this.state;
         const searchedPokemons = await Helper.fetch("/search/" + value);
         this.setState({
             pokemonsFiltred: searchedPokemons
