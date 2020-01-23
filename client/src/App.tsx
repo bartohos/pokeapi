@@ -1,8 +1,8 @@
-import React from 'react';
-import { Route, Switch } from 'react-router';
-import { BrowserRouter } from 'react-router-dom';
-import Home from './components/Home';
-import Pokemon from './components/Pokemon';
+import React from "react";
+import { Route, Switch } from "react-router";
+import { BrowserRouter } from "react-router-dom";
+import Home from "./components/Home";
+import Pokemon from "./components/Pokemon";
 
 function App() {
   return (

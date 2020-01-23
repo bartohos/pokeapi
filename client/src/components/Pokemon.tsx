@@ -4,53 +4,53 @@ import Helper from "../helpers/Helper";
 import { IPokemon } from "../models/IPokemon";
 
 interface IPokemonProps {
-    match: {
-        params: {
-            id: string;
-        };
+  match: {
+    params: {
+      id: string;
     };
+  };
 }
 
 interface IPokemonState {
-    currentPokemon?: IPokemon;
+  currentPokemon?: IPokemon;
 }
 
 class Pokemon extends Component<IPokemonProps, IPokemonState> {
-    constructor(props: IPokemonProps) {
-        super(props);
-        this.state = {
-            currentPokemon: undefined
-        };
-    }
+  constructor(props: IPokemonProps) {
+    super(props);
+    this.state = {
+      currentPokemon: undefined
+    };
+  }
 
-    async componentWillMount() {
-        const pokemon = await Helper.fetch(
-            "/pokemon/" + this.props.match.params.id
-        );
-        this.setState({ currentPokemon: pokemon });
-    }
+  public async componentWillMount() {
+    const pokemon = await Helper.fetch(
+      "/pokemon/" + this.props.match.params.id
+    );
+    this.setState({ currentPokemon: pokemon });
+  }
 
-    async componentWillReceiveProps(nextProps: IPokemonProps) {
-        // You don't have to do this check first, but it can help prevent an unneeded render
-        if (nextProps.match.params.id !== this.state.currentPokemon?._id) {
-            const pokemon = await Helper.fetch(
-                "/pokemon/" + nextProps.match.params.id
-            );
-            this.setState({ currentPokemon: pokemon });
-        }
+  public async componentWillReceiveProps(nextProps: IPokemonProps) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps.match.params.id !== this.state.currentPokemon?._id) {
+      const pokemon = await Helper.fetch(
+        "/pokemon/" + nextProps.match.params.id
+      );
+      this.setState({ currentPokemon: pokemon });
     }
+  }
 
-    render() {
-        const pokemon = this.state.currentPokemon;
-        return (
-            <>
-                <li>Name: {pokemon?.name} </li>
-                <li>Type: {pokemon?.type.join(", ")} </li>
-                <li>Notes: {pokemon?.notes} </li>
-                <Link to="/">Back</Link>
-            </>
-        );
-    }
+  public render() {
+    const pokemon = this.state.currentPokemon;
+    return (
+      <>
+        <li>Name: {pokemon?.name} </li>
+        <li>Type: {pokemon?.type.join(", ")} </li>
+        <li>Notes: {pokemon?.notes} </li>
+        <Link to="/">Back</Link>
+      </>
+    );
+  }
 }
 
 export default Pokemon;

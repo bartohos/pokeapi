@@ -4,34 +4,38 @@ const PokemonSchema = new mongoose.Schema({
   name: {
     type: String,
     validate: {
-      validator: async (name: String) => {
+      message: "The name is already taken.",
+      validator: async (name: string) => {
         return await CheckNameUnique(name);
-      },
-      message: 'The name is already taken.'
+      }
     }
   },
+  notes: String,
   type: {
     type: [String],
     validate: {
+      message: "One of the types is not correct.",
       validator: (type: [string]): boolean => {
         for (const t in type) {
-          if (!Object.values(PokemonType).includes(type[t].toString().toLowerCase())) {
+          if (
+            !Object.values(PokemonType).includes(
+              type[t].toString().toLowerCase()
+            )
+          ) {
             return false;
           }
-        };
+        }
 
         return true;
-      },
-      message: 'One of the types is not correct.'
+      }
     }
-  },
-  notes: String
+  }
 });
 
 export const Pokemon = mongoose.model<IPokemonModel>("Pokemon", PokemonSchema);
 
-async function CheckNameUnique(name: String) {
-  const pok = await Pokemon.findOne({ name: name }, 'name');
+async function CheckNameUnique(name: string) {
+  const pok = await Pokemon.findOne({ name }, "name");
   if (pok) {
     return false;
   }
@@ -40,9 +44,9 @@ async function CheckNameUnique(name: String) {
 }
 
 export interface IPokemonModel extends mongoose.Document {
-  name: String,
-  type: PokemonType,
-  notes: String
+  name: string;
+  type: PokemonType;
+  notes: string;
 }
 
 export enum PokemonType {
@@ -63,4 +67,4 @@ export enum PokemonType {
   ghost,
   dragon,
   steel
-};
+}
