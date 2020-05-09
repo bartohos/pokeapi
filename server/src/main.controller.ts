@@ -1,5 +1,5 @@
 import { Application } from "express";
-import { PokeService } from "./services/pokemon.service";
+import { PokeService } from "./services/pokemonService";
 
 export class Controller {
   private pokeService: PokeService;

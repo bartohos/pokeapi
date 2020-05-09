@@ -4,11 +4,12 @@
   "main": "index.js",
   "scripts": {
     "server": "cd server && nodemon",
-    "client": "cd client && yarn start",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+    "client": "cd client && npm run start",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "A test server",
+  "repository": "https://github.com/bartohos/pokeapi.git"
 }
