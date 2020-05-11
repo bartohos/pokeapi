@@ -37,7 +37,9 @@ export class PokeService {
   public async deleteAll(req: Request, res: Response) {
     try {
       await Pokemon.deleteMany({});
-      res.status(200).send("The pokemons was successfully deleted.");
+      res
+        .status(200)
+        .send({ message: "The pokemons was successfully deleted." });
     } catch (error) {
       return res.status(400).send(error);
     }

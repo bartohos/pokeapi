@@ -1,7 +1,6 @@
 {
-  "name": "pokeapiserver",
+  "name": "pokeapi",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "server": "cd server && nodemon",
     "client": "cd client && npm run start",

@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Helper from "../helpers/Helper";
 import { IPokemon } from "../models/IPokemon";
-import "./Home.css";
+import "../styles/Home.css";
+import { Input, Button } from "@material-ui/core";
 
 const WAIT_INTERVAL = 400;
 export interface IHomeState {
@@ -68,14 +69,19 @@ class Home extends Component<{}, IHomeState> {
     return (
       <div>
         <h2>List of Pokemons</h2>
-        <input
+        <Input
           type="text"
           className="input"
           placeholder="Search..."
           onChange={this.handleChange}
-        ></input>
+        />
+
         <ul>{renderPoke}</ul>
         <ul id="page-numbers">{renderPageNumbers}</ul>
+
+        <Button variant="contained" color="primary" href="/add">
+          Add
+        </Button>
       </div>
     );
   }

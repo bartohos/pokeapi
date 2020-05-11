@@ -1,26 +1,26 @@
 export interface IPokemon {
-    name: string,
-    type: PokemonType[],
-    notes: string,
-    _id:string
+  name: string;
+  type: PokemonType[];
+  notes: string;
+  _id: string;
 }
 
 export enum PokemonType {
-    grass,
-    poison,
-    fire,
-    flying,
-    water,
-    bug,
-    normal,
-    electric,
-    ground,
-    fairy,
-    fighting,
-    psychic,
-    rock,
-    ice,
-    ghost,
-    dragon,
-    steel
-};
+  Grass = "Grass",
+  Poison = "Poison",
+  Fire = "Fire",
+  Flying = "Flying",
+  Water = "Water",
+  Bug = "Bug",
+  Normal = "Normal",
+  Electric = "Electric",
+  Ground = "Ground",
+  Fairy = "Fairy",
+  Fighting = "Fighting",
+  Psychic = "Psychic",
+  Rock = "Rock",
+  Ice = "Ice",
+  Ghost = "Ghost",
+  Dragon = "Dragon",
+  Steel = "Steel"
+}

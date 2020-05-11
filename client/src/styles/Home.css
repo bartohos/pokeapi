@@ -1,0 +1,23 @@
+ul#page-numbers {
+  min-width: 696px;
+  list-style: none;
+  padding-top: 20px;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+ul#page-numbers li {
+  display: inline;
+  cursor: pointer;
+}
+ul#page-numbers li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 16px;
+  text-decoration: none;
+}
+ul#page-numbers li a:hover {
+  background-color: #111111;
+}
