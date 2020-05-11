@@ -24,18 +24,14 @@ class Pokemon extends Component<IPokemonProps, IPokemonState> {
     }
 
     public async componentDidMount() {
-        const pokemon = await Helper.fetch(
-            "/pokemon/" + this.props.match.params.id
-        );
+        const pokemon = await Helper.fetch("/pokemon/" + this.props.match.params.id);
         this.setState({ currentPokemon: pokemon });
     }
 
     public async componentDidUpdate(nextProps: IPokemonProps) {
         // You don't have to do this check first, but it can help prevent an unneeded render
         if (nextProps.match.params.id !== this.state.currentPokemon?._id) {
-            const pokemon = await Helper.fetch(
-                "/pokemon/" + nextProps.match.params.id
-            );
+            const pokemon = await Helper.fetch("/pokemon/" + nextProps.match.params.id);
             this.setState({ currentPokemon: pokemon });
         }
     }

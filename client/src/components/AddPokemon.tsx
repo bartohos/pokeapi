@@ -85,7 +85,6 @@ class AddPokemon extends Component<{}, IAddPokemonState> {
                     />
                 </ul>
                 <ul>
-
                     <Select placeholder='Type' options={getPokemonTypeList()} />
                 </ul>
                 <ul>
@@ -101,8 +100,7 @@ class AddPokemon extends Component<{}, IAddPokemonState> {
                         primary
                         onClick={this.AddNewPokemon}
                         variant="contained"
-                        href="/"
-                    >
+                        href="/">
                         Add
                     </Button>
                 </ul>

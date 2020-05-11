@@ -20,7 +20,7 @@ class Home extends Component<{}, IHomeState> {
         super(props);
         this.state = {
             currentPage: 1,
-            pokemonPerPage: 10,
+            pokemonPerPage: 9,
             pokemons: [],
             pokemonsFiltred: [],
             searchValue: ""
@@ -60,11 +60,7 @@ class Home extends Component<{}, IHomeState> {
 
     public render() {
         const { pokemonsFiltred, currentPage, pokemonPerPage } = this.state;
-        const { renderPoke, renderPageNumbers } = this.renderItems(
-            currentPage,
-            pokemonPerPage,
-            pokemonsFiltred
-        );
+        const { renderPoke, renderPageNumbers } = this.renderItems(currentPage, pokemonPerPage, pokemonsFiltred);
 
         return (
             <div>
@@ -75,26 +71,17 @@ class Home extends Component<{}, IHomeState> {
                     placeholder="Search..."
                     onChange={this.handleChange}
                 />
-
                 <ul>{renderPoke}</ul>
                 <ul id="page-numbers">{renderPageNumbers}</ul>
-
                 <Button primary href="/add">Add</Button>
             </div>
         );
     }
 
-    private renderItems(
-        currentPage: number,
-        pokemonPerPage: number,
-        pokemonsFiltred: IPokemon[]
-    ) {
+    private renderItems(currentPage: number, pokemonPerPage: number, pokemonsFiltred: IPokemon[]) {
         const indexOfLastPoke = currentPage * pokemonPerPage;
         const indexOfFirstPoke = indexOfLastPoke - pokemonPerPage;
-        const currentPokes = pokemonsFiltred.slice(
-            indexOfFirstPoke,
-            indexOfLastPoke
-        );
+        const currentPokes = pokemonsFiltred.slice(indexOfFirstPoke, indexOfLastPoke);
         const renderPoke = currentPokes.map((pokemon: IPokemon, index: number) => (
             <div key={index}>
                 <li key={pokemon._id}>
@@ -102,12 +89,9 @@ class Home extends Component<{}, IHomeState> {
                 </li>
             </div>
         ));
+
         const pageNumbers: number[] = [];
-        for (
-            let i = 1;
-            i <= Math.ceil(pokemonsFiltred.length / pokemonPerPage);
-            i++
-        ) {
+        for (let i = 1; i <= Math.ceil(pokemonsFiltred.length / pokemonPerPage); i++) {
             pageNumbers.push(i);
         }
         const renderPageNumbers = pageNumbers.map(pageNumber => {
@@ -115,8 +99,7 @@ class Home extends Component<{}, IHomeState> {
                 <li
                     key={pageNumber}
                     id={pageNumber.toString()}
-                    onClick={this.handleClick}
-                >
+                    onClick={this.handleClick} >
                     {pageNumber} <span> </span>
                 </li>
             );
