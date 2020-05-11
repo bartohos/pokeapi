@@ -6,17 +6,17 @@ import Pokemon from "./components/Pokemon";
 import AddPokemon from "./components/AddPokemon";
 
 function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/pokemon/:id" component={Pokemon} />
-          <Route exact path="/add" component={AddPokemon} />
-        </Switch>
-      </BrowserRouter>
-    </div>
-  );
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/pokemon/:id" component={Pokemon} />
+                    <Route exact path="/add" component={AddPokemon} />
+                </Switch>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;
