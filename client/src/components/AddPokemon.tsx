@@ -3,13 +3,7 @@ import React from "react";
 import { IPokemon, PokemonType } from "../models/IPokemon";
 import Helper from "../helpers/Helper";
 import _ from "underscore";
-import Button from "@material-ui/core/Button";
-import {
-    FormControl,
-    InputLabel,
-    NativeSelect,
-    Input
-} from "@material-ui/core";
+import { Input, Select, Button } from "semantic-ui-react";
 
 interface IAddPokemonState extends IPokemon {
     response: boolean | undefined;
@@ -91,15 +85,8 @@ class AddPokemon extends Component<{}, IAddPokemonState> {
                     />
                 </ul>
                 <ul>
-                    <FormControl>
-                        <InputLabel htmlFor="age-native-helper">Type</InputLabel>
-                        <NativeSelect
-                            onChange={this.handleTypeChange}
-                            value={this.state.type}
-                        >
-                            {getPokemonTypeList()}
-                        </NativeSelect>
-                    </FormControl>
+
+                    <Select placeholder='Type' options={getPokemonTypeList()} />
                 </ul>
                 <ul>
                     <Input
@@ -111,13 +98,13 @@ class AddPokemon extends Component<{}, IAddPokemonState> {
                 </ul>
                 <ul>
                     <Button
+                        primary
                         onClick={this.AddNewPokemon}
                         variant="contained"
-                        color="primary"
                         href="/"
                     >
                         Add
-          </Button>
+                    </Button>
                 </ul>
                 <ul>{this.showError()}</ul>
             </>
@@ -133,7 +120,11 @@ const getPokemonTypeList = () => {
     }
 
     return enumValues.map(item => {
-        return <option key={item}>{item}</option>;
+        return {
+            key: item,
+            value: item,
+            text: item
+        };
     });
 };
 

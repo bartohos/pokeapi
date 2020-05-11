@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Helper from "../helpers/Helper";
 import { IPokemon } from "../models/IPokemon";
 import "../styles/Home.css";
-import { Input, Button } from "@material-ui/core";
+import { Input, Button } from 'semantic-ui-react'
 
 const WAIT_INTERVAL = 400;
 export interface IHomeState {
@@ -79,9 +79,7 @@ class Home extends Component<{}, IHomeState> {
                 <ul>{renderPoke}</ul>
                 <ul id="page-numbers">{renderPageNumbers}</ul>
 
-                <Button variant="contained" color="primary" href="/add">
-                    Add
-        </Button>
+                <Button primary href="/add">Add</Button>
             </div>
         );
     }
