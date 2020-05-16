@@ -3,8 +3,12 @@ import Routes from "./route";
 
 function App() {
     return (
-        <div className="App">
-            <Routes></Routes>
+        <div className="ui grid">
+            <div className="three wide column"></div>
+            <div className="App ten wide column">
+                <Routes></Routes>
+            </div>
+            <div className="three wide column"></div>
         </div>
     );
 }

@@ -64,12 +64,11 @@ class AddPokemon extends Component<{}, IAddPokemonState> {
         const errors = showError ? (
             <>
                 {errorMessages.map(err => {
-                    return <ul>{err}</ul>;
+                    return <ul key={err}>{err}</ul>;
                 })}
-            </>
-        ) : (
-                <></>
-            );
+            </>)
+            : (<></>);
+
         return errors;
     };
 
@@ -99,9 +98,14 @@ class AddPokemon extends Component<{}, IAddPokemonState> {
                     <Button
                         primary
                         onClick={this.AddNewPokemon}
+                        variant="contained">
+                        Add
+                    </Button>
+                    <Button
+                        primary
                         variant="contained"
                         href="/">
-                        Add
+                        Back
                     </Button>
                 </ul>
                 <ul>{this.showError()}</ul>

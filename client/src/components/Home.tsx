@@ -1,17 +1,16 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Helper from "../helpers/Helper";
 import { IPokemon } from "../models/IPokemon";
 import "../styles/Home.css";
-import { Input, Button } from 'semantic-ui-react'
+import { Input, Button, Pagination } from 'semantic-ui-react'
 
 const WAIT_INTERVAL = 400;
-export interface IHomeState {
+interface IHomeState {
     pokemons: IPokemon[];
     pokemonsFiltred: IPokemon[];
     currentPage: number;
-    pokemonPerPage: number;
     searchValue: string;
+    PageSize: number;
 }
 
 class Home extends Component<{}, IHomeState> {
@@ -20,10 +19,10 @@ class Home extends Component<{}, IHomeState> {
         super(props);
         this.state = {
             currentPage: 1,
-            pokemonPerPage: 9,
             pokemons: [],
             pokemonsFiltred: [],
-            searchValue: ""
+            searchValue: "",
+            PageSize: 9
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -31,9 +30,9 @@ class Home extends Component<{}, IHomeState> {
         this.triggerChange = this.triggerChange.bind(this);
     }
 
-    public handleClick(event: any) {
+    public handleClick(currentPage: string | number | undefined) {
         this.setState({
-            currentPage: Number(event.target.id)
+            currentPage: Number(currentPage)
         });
     }
 
@@ -59,12 +58,11 @@ class Home extends Component<{}, IHomeState> {
     }
 
     public render() {
-        const { pokemonsFiltred, currentPage, pokemonPerPage } = this.state;
-        const { renderPoke, renderPageNumbers } = this.renderItems(currentPage, pokemonPerPage, pokemonsFiltred);
+        const { pokemonsFiltred, PageSize } = this.state;
+        const renderPoke = this.renderItems(pokemonsFiltred);
 
         return (
-            <div>
-                <h2>List of Pokemons</h2>
+            <div className="ui search">
                 <Input
                     type="text"
                     className="input"
@@ -72,39 +70,50 @@ class Home extends Component<{}, IHomeState> {
                     onChange={this.handleChange}
                 />
                 <ul>{renderPoke}</ul>
-                <ul id="page-numbers">{renderPageNumbers}</ul>
-                <Button primary href="/add">Add</Button>
+                <ul>
+                    <Pagination
+                        boundaryRange={0}
+                        defaultActivePage={1}
+                        ellipsisItem={null}
+                        firstItem={null}
+                        lastItem={null}
+                        siblingRange={1}
+                        prevItem={null}
+                        nextItem={null}
+                        totalPages={Math.ceil(pokemonsFiltred.length / PageSize)}
+                        onPageChange={(event, data) => this.handleClick(data.activePage)} />
+                </ul>
+                <ul>
+                    <Button primary href="/add">Add</Button>
+                </ul>
             </div>
         );
     }
 
-    private renderItems(currentPage: number, pokemonPerPage: number, pokemonsFiltred: IPokemon[]) {
-        const indexOfLastPoke = currentPage * pokemonPerPage;
-        const indexOfFirstPoke = indexOfLastPoke - pokemonPerPage;
-        const currentPokes = pokemonsFiltred.slice(indexOfFirstPoke, indexOfLastPoke);
+    private renderItems(pokemonsFiltred: IPokemon[]) {
+        const { currentPage, PageSize } = this.state;
+        const currentPokes = pokemonsFiltred.slice((currentPage - 1) * PageSize, (currentPage) * PageSize);
         const renderPoke = currentPokes.map((pokemon: IPokemon, index: number) => (
-            <div key={index}>
-                <li key={pokemon._id}>
-                    <Link to={`/pokemon/${pokemon._id}`}>{pokemon.name}</Link>
-                </li>
-            </div>
+            <div className="column" key={index}>
+                <a href={`/pokemon/${pokemon._id}`}>
+                    <div className="ui card">
+                        <div className="image">
+                            <img src={require("../Assets/image.png")} alt="" />
+                        </div>
+                        <div className="content">
+                            <div className="header">{pokemon.name}</div>
+                            <div className="meta">
+                                <span className="date">{pokemon.type}</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div >
         ));
 
-        const pageNumbers: number[] = [];
-        for (let i = 1; i <= Math.ceil(pokemonsFiltred.length / pokemonPerPage); i++) {
-            pageNumbers.push(i);
-        }
-        const renderPageNumbers = pageNumbers.map(pageNumber => {
-            return (
-                <li
-                    key={pageNumber}
-                    id={pageNumber.toString()}
-                    onClick={this.handleClick} >
-                    {pageNumber} <span> </span>
-                </li>
-            );
-        });
-        return { renderPoke, renderPageNumbers };
+        return (<div className="ui three column grid">
+            {renderPoke}
+        </div>)
     }
 }
 
