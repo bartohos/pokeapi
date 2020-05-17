@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Helper from "../helpers/Helper";
 import { IPokemon } from "../models/IPokemon";
-import "../styles/Home.css";
 import { Input, Button, Pagination } from 'semantic-ui-react'
 
 const WAIT_INTERVAL = 400;
