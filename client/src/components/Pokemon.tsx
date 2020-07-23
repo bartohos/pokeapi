@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import Helper from "../helpers/Helper";
 import { IPokemon } from "../models/IPokemon";
+import { Button } from "semantic-ui-react";
+import { Redirect } from "react-router";
 
 interface IPokemonProps {
     match: {
@@ -13,14 +14,18 @@ interface IPokemonProps {
 
 interface IPokemonState {
     currentPokemon?: IPokemon;
+    response: any
 }
 
 class Pokemon extends Component<IPokemonProps, IPokemonState> {
     constructor(props: IPokemonProps) {
         super(props);
         this.state = {
-            currentPokemon: undefined
+            currentPokemon: undefined,
+            response: null
         };
+
+        this.deletePokemon = this.deletePokemon.bind(this);
     }
 
     public async componentDidMount() {
@@ -36,14 +41,40 @@ class Pokemon extends Component<IPokemonProps, IPokemonState> {
         }
     }
 
+    public async deletePokemon() {
+        const _id = this.state.currentPokemon?._id;
+        const response = await Helper.delete(`/pokemon/${_id}`);
+        this.setState({
+            response
+        });
+    }
+
     public render() {
-        const pokemon = this.state.currentPokemon;
+        const { response, currentPokemon: pokemon } = this.state;
+        const notes = pokemon?.notes ? <li>Notes: {pokemon?.notes} </li> : <></>
+        if (response) {
+            return <Redirect to={"/"}></Redirect>
+        }
         return (
             <>
                 <li>Name: {pokemon?.name} </li>
                 <li>Type: {pokemon?.type.join(", ")} </li>
-                <li>Notes: {pokemon?.notes} </li>
-                <Link to="/">Back</Link>
+                <li><div className="image">
+                    <img src={pokemon?.image} alt="" />
+                </div></li>
+                {notes}
+                <Button
+                    primary
+                    variant="contained"
+                    href="/">
+                    Back
+                    </Button>
+                <Button
+                    color="red"
+                    variant="contained"
+                    onClick={this.deletePokemon}>
+                    Delete
+                    </Button>
             </>
         );
     }

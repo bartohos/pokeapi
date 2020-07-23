@@ -2,9 +2,6 @@ import { Request, Response } from "express";
 import { Pokemon } from "../models/PokemonSchema";
 
 export class PokeService {
-    public async hello(req: Request, res: Response) {
-        res.json({ express: "Hello From Express" });
-    }
     public async getAllPokemon(req: Request, res: Response) {
         try {
             const pokemons = await Pokemon.find({}, { __v: 0 });
@@ -28,7 +25,7 @@ export class PokeService {
         try {
             const pokemonID = req.params.id;
             await Pokemon.findByIdAndRemove(pokemonID);
-            res.status(200).send("The pokemon was deleted");
+            res.status(200).send({ message: "The pokemon was deleted" });
         } catch (error) {
             return res.status(400).send(error);
         }
@@ -39,7 +36,7 @@ export class PokeService {
             await Pokemon.deleteMany({});
             res
                 .status(200)
-                .send({ message: "The pokemons was successfully deleted." });
+                .send({ message: "The pokemons were successfully deleted." });
         } catch (error) {
             return res.status(400).send(error);
         }

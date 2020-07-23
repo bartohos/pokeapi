@@ -4,6 +4,7 @@ export interface IPokemonModel extends mongoose.Document {
   name: string;
   type: PokemonType;
   notes: string;
+  image: string;
 }
 
 export enum PokemonType {

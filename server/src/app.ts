@@ -30,9 +30,9 @@ class App {
   private setMongoConfig() {
     mongoose.Promise = global.Promise;
     mongoose.connect(MONGO_URL, {
-      useFindAndModify: true,
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useFindAndModify: false
     });
   }
 }

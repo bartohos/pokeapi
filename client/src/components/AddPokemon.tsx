@@ -4,14 +4,18 @@ import { IPokemon, PokemonType } from "../models/IPokemon";
 import Helper from "../helpers/Helper";
 import _ from "underscore";
 import { Input, Select, Button } from "semantic-ui-react";
+import { Redirect } from "react-router";
 
 interface IAddPokemonState extends IPokemon {
     response: boolean | undefined;
     showError: boolean;
     errorMessages: string[];
+    image: string;
 }
 
 class AddPokemon extends Component<{}, IAddPokemonState> {
+    inputReference: any;
+    filereader: FileReader;
     constructor(props: {}) {
         super(props);
         this.state = {
@@ -19,15 +23,30 @@ class AddPokemon extends Component<{}, IAddPokemonState> {
             _id: "",
             notes: "",
             type: [PokemonType.Grass],
+            image: "",
             response: undefined,
             showError: false,
-            errorMessages: []
+            errorMessages: [],
         };
 
+        this.filereader = new FileReader();
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleNotesChange = this.handleNotesChange.bind(this);
         this.handleTypeChange = this.handleTypeChange.bind(this);
         this.AddNewPokemon = this.AddNewPokemon.bind(this);
+
+        this.inputReference = React.createRef();
+    }
+
+    fileUploadAction = () => this.inputReference.current.click();
+    fileUploadInputChange = (e: any) => {
+        this.filereader.onloadend = this.handleFileRead;
+        this.filereader.readAsDataURL(e.target.files[0]);
+    };
+
+    private handleFileRead = (e: any) => {
+        const content = this.filereader.result as string;
+        this.setState({ image: content })
     }
 
     public handleNameChange(event: any) {
@@ -43,7 +62,7 @@ class AddPokemon extends Component<{}, IAddPokemonState> {
     }
 
     public async AddNewPokemon() {
-        const body = _.pick(this.state, ["name", "type", "notes"]);
+        const body = _.pick(this.state, ["name", "type", "notes", "image"]);
         try {
             const response = await Helper.post("/pokemon", body);
             this.setState({ response });
@@ -73,6 +92,10 @@ class AddPokemon extends Component<{}, IAddPokemonState> {
     };
 
     public render() {
+        const { response } = this.state;
+        if (response) {
+            return <Redirect to={"/"}></Redirect>
+        }
         return (
             <>
                 <ul>
@@ -93,6 +116,15 @@ class AddPokemon extends Component<{}, IAddPokemonState> {
                         placeholder="Notes"
                         onChange={this.handleNotesChange}
                     />
+                </ul>
+                <ul>
+                    <div>
+                        <input type="file" hidden ref={this.inputReference} onChange={this.fileUploadInputChange} />
+                        <button className="ui button" onClick={this.fileUploadAction}>
+                            <i className="ui upload icon"></i>
+                            Image Upload
+                        </button>
+                    </div>
                 </ul>
                 <ul>
                     <Button

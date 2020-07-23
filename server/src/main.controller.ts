@@ -10,7 +10,6 @@ export class Controller {
     }
 
     public routes() {
-        this.app.route("/api/hello").get(this.pokeService.hello);
         this.app
             .route("/pokemons")
             .get(this.pokeService.getAllPokemon)
@@ -23,8 +22,6 @@ export class Controller {
             .delete(this.pokeService.deletePokemon)
             .put(this.pokeService.updatePokemon)
             .get(this.pokeService.getPokemonById);
-
-        this.app.route("/search/:name").get(this.pokeService.searchByName);
 
         this.app.route("/search").get(this.pokeService.getAllPokemon);
     }

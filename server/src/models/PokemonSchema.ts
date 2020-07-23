@@ -18,7 +18,8 @@ const PokemonSchema = new mongoose.Schema({
             message: "One of the types is not correct.",
             validator: validateType()
         }
-    }
+    },
+    image: String
 });
 
 export const Pokemon = mongoose.model<IPokemonModel>("Pokemon", PokemonSchema);
